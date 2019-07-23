@@ -21,9 +21,10 @@
 
 				</div>
 				<div class="absolute-bottom text-white q-my-lg" align="center">
-					<div class="text-h4 text-weight-bold" contenteditable="true">{{data.video.h4}}</div>
-					<div class="text-h5 text-weight-bold text-blue-grey-4" contenteditable="true">{{data.video.h5}}</div>
-					<p class="text-body2 text-blue-grey-4 q-mt-lg" style="max-width: 450px;" contenteditable="true">{{data.video.p}}</p>
+					<!-- <div class="text-h4 text-weight-bold" contenteditable="true">{{data.video.h4}}</div> -->
+					<editable class="text-h4 text-weight-bold" :canEdit="canEdit" v-model="data.video.h4"></editable>
+					<editable class="text-h5 text-weight-bold text-blue-grey-4" :canEdit="canEdit" v-model="data.video.h5"></editable>
+					<editable class="text-body2 text-blue-grey-4 q-mt-lg" style="max-width: 450px;" :canEdit="canEdit" v-model="data.video.p"></editable>
 					<a class="cursor-pointer" @click="scrollToElement('soluciones_tecnologicas')"><img id="mouse" src="statics/mouseanimado4.gif"  style="z-index: 9999;"></a>
 				</div>
 			</div>
@@ -186,6 +187,16 @@
 			© Gonzales Navarro Ltda. Todos los derechos reservados. La Paz, Bolivia.
 		</div>
 	</q-footer>
+
+	 <q-toolbar class="bg-lime text-grey-9 q-my-none shadow-2 fixed-bottom">
+	<!-- <q-btn flat round dense icon="menu"  /> -->
+		<!-- <q-space /> -->
+		<!-- <q-btn round  icon="keyboard_arrow_up" color="primary"/> -->
+		<q-space />
+		<q-toggle v-model="canEdit" icon="edit" label="Editable" left-label/>
+		<q-btn label="Guardar" type="submit" color="primary" class="q-mx-sm"/>
+		<q-btn label="Restaurar" type="reset" flat class="q-ml-sm text-primary" />
+	</q-toolbar>
 </div>
 </template>
 <script>
@@ -197,11 +208,16 @@ Vue.use(VueParticles)
 import { scroll } from 'quasar'
 const { getScrollTarget, setScrollPosition } = scroll
 
+import editable from '../components/editable'
 import WOW from 'wow.js/dist/wow.min.js'
 export default {
+	components:{
+		editable
+	},
 	name: 'PageIndex',
 	data(){
 		return{
+			canEdit:true,
 			slide: 1,
 			form:{
 				nombre:null,
@@ -293,9 +309,15 @@ export default {
 		}
 	},
 	created(){
-		new WOW().init();
+		new WOW().init()
+		this.getData()
 	},
 	methods: {
+			getData(){
+			this.$axios.get('http://gonzalesnavarro.com/back/index.php/test').then(r=>{
+				console.log(r.data)
+			})
+		},
 		
 		// takes an element object
 		scrollToElement (id) {

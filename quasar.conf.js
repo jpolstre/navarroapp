@@ -52,6 +52,9 @@ module.exports = function (ctx) {
 				'QPageScroller',
 				'QForm',
 				'QInput',
+				'QSpace',
+				'QToggle'
+
 
 			],
 
