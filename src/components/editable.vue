@@ -35,8 +35,8 @@
 				},
 				methods: {
 						changeText(){
-								// this.$emit('input', this.$el.innerHTML);
-								this.$emit('input', this.$el.innerText);
+								this.$emit('input', this.$el.innerHTML);
+								// this.$emit('input', this.$el.innerText);
 						}
 				}
 		}
