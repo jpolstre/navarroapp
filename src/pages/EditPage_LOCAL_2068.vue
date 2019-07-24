@@ -1,5 +1,5 @@
 <template>
-<div v-if="data">
+<div>
 	<section id="video">
 		<div class="full-window-height video-bg">
 			<video
@@ -23,6 +23,7 @@
 				<div class="absolute-bottom text-white q-my-lg" align="center">
 					<!-- <div class="text-h4 text-weight-bold" contenteditable="true">{{data.video.h4}}</div> -->
 					<editable class="text-h4 text-weight-bold" :canEdit="canEdit" v-model="data.video.h4"></editable>
+
 					<editable class="text-h5 text-weight-bold text-blue-grey-4" :canEdit="canEdit" v-model="data.video.h5"></editable>
 					<editable class="text-body2 text-blue-grey-4 q-mt-lg" style="max-width: 450px;" :canEdit="canEdit" v-model="data.video.p"></editable>
 					<a class="cursor-pointer" @click="scrollToElement('soluciones_tecnologicas')"><img id="mouse" src="statics/mouseanimado4.gif"  style="z-index: 9999;"></a>
@@ -77,35 +78,18 @@
 				<editable class="text-body1 text-weight-thin" style="max-width: 800px;" :canEdit="canEdit" v-model="data.solTec.ps"></editable>
 			</div>
 		</div>
-		<div class="row bg-white" 	>
-			 <q-toolbar class="bg-white text-grey-9 q-my-xs shadow-2">
-			<!-- <q-btn flat round dense icon="menu"  /> -->
-				<!-- <q-space /> -->
-				<!-- <q-btn round  icon="keyboard_arrow_up" color="primary"/> -->
-				
-				<!-- <q-toggle v-model="canEdit" icon="edit" label="Editable" left-label/> -->
-				
-				<q-space />
-				<q-btn round icon="add" size="sm" @click="data.solTec.items.push({imagen:'default.png', titulo:'TITULO', descripcion:'Descripcion'})" color="primary" class="q-mx-sm"/>
-				<!-- <q-btn label="Restaurar" flat class="q-ml-sm text-primary" /> -->
-			</q-toolbar>
-			</div>
-			<draggable class="row q-col-gutter-sm bg-white q-mb-xl text-center" v-model="data.solTec.items" align="center">
-				<div class="col-md-4 col-sm-12 col-xs-12" v-for="st, index in data.solTec.items" :key="index">
-					<div class="q-card full-height">
-						<div class="q-pa-xl">
-							<img :src="`statics/${st.imagen}`" :alt="st.imagen" style="border-radius:50%;" class="wow jackInTheBox" data-wow-duration="1s" data-wow-delay=".5s" height="174">
-							<editable class="text-h5 text-weight-medium text-grey-9 q-my-sm" :canEdit="canEdit" v-model="st.titulo"></editable>
-							<editable class="text-body1 text-left text-weight-thin" :canEdit="canEdit" v-model="st.descripcion"></editable>
-							<div class="absolute-right q-ma-md">
-								<q-btn round size="sm" color="red-5" icon="delete_forever" @click="data.solTec.items.splice(index, 1)"/>
-							</div>
-						</div>
+		<div class="row bg-white q-pt-lg q-pb-xl" align="center">
+			<div class="col-md-4 col-sm-12 col-xs-12" v-for="st, index in data.solTec.items" :key="index">
+				<div class="q-card q-mx-sm full-height">
+					<div class="q-pa-xl">
+						<img :src="`statics/${st.imagen}`" :alt="st.imagen" style="border-radius:50%;" class="wow jackInTheBox" data-wow-duration="1s" data-wow-delay=".5s">
+						<editable class="text-h5 text-weight-medium text-grey-9 q-my-sm" :canEdit="canEdit" v-model="st.titulo"></editable>
+						<editable class="text-body1 text-left text-weight-thin" :canEdit="canEdit" v-model="st.descripcion"></editable>
 					</div>
-				</div>	
-			</draggable>
+				</div>
+			</div>
 			
-		
+		</div>
 	</section>
 	<section id="soluciones_corporativas">
 		<div class="row text-white q-pt-xl">
@@ -180,15 +164,15 @@
 
 			<div class="col-md-6 col-sm-12 col-xs-12 q-py-lg">
 				<div class="q-pl-md">
-					<editable class="text-h4" :canEdit="canEdit" v-model="data.footer.p4rigth"></editable>
-					<editable class="text-body1" :canEdit="canEdit" v-model="data.footer.prigth"></editable>
+					<div class="text-h4" :canEdit="canEdit" v-model="data.footer.p4rigth"></div>
+					<p class="text-body1" :canEdit="canEdit" v-model="data.footer.prigth"></p>
 					<q-list dark bordered separator class="q-mt-lg" v-for="(value, name) in data.footer.callCenter" :key="name">
 						<q-item-label header class="text-uppercase">{{name}}</q-item-label>
 						<q-item  v-ripple  v-for="item, index in value" :key="index">
 							<q-item-section avatar>
 								<q-icon color="primary" :name="name!=='emails'?'phone':'email'" />
 							</q-item-section>
-							<editable class="q-item-section" v-model="item.label"></editable>
+							<editable class="q-item-section" v-model="item.label" :canEdit="canEdit"></editable>
 							<!-- <q-item-label caption>{{name!=='emails'?'linea '+(index+1):'email '+(index+1)}}</q-item-label> -->
 						</q-item>
 					</q-list>
@@ -205,12 +189,10 @@
 	<!-- <q-btn flat round dense icon="menu"  /> -->
 		<!-- <q-space /> -->
 		<!-- <q-btn round  icon="keyboard_arrow_up" color="primary"/> -->
-		
-		<q-toggle v-model="canEdit" icon="edit" label="Editable" left-label/>
-		
 		<q-space />
-		<q-btn label="Guardar" @click="saveData" color="primary" class="q-mx-sm"/>
-		<q-btn label="Restaurar" flat class="q-ml-sm text-primary" />
+		<q-toggle v-model="canEdit" icon="edit" label="Editable" left-label/>
+		<q-btn label="Guardar" type="submit" color="primary" class="q-mx-sm"/>
+		<q-btn label="Restaurar" type="reset" flat class="q-ml-sm text-primary" />
 	</q-toolbar>
 </div>
 </template>
@@ -225,11 +207,9 @@ const { getScrollTarget, setScrollPosition } = scroll
 
 import editable from '../components/editable'
 import WOW from 'wow.js/dist/wow.min.js'
-import draggable from 'vuedraggable'
 export default {
 	components:{
-		editable,
-		draggable
+		editable
 	},
 	name: 'PageIndex',
 	data(){
@@ -242,7 +222,87 @@ export default {
 				telefono:null,
 				mensaje:null
 			},
-			data:null
+			data:{
+				video:{
+					h4:'RECURSOS',
+					h5:'EMPRESARIALES',
+					p:'Tenemos lo que su empresa necesita, atención especializada 24hrs. Tecnología de última generación, asesoramiento corporativo y especialistas en cobertura de eventos.'
+				},
+
+				solTec:{
+					h4p:'SOLUCIONES',
+					h6p:'TECNOLÓGICAS',
+					textBody:`<p>Ponemos a su disposición productos de última tecnología. Realizamos la instalación de dispositivos de audio y video enfocados en mejorar la experiencia del usuario basándonos en lo último en dispositivos inteligentes.</p> 
+					<br>
+					<p>El mundo ha evolucionado y vemos una proliferación de asistentes automatizados como parte del crecimiento del Internet de las Cosas. En la actualidad contamos con centros de comando de voz naturales, progreso en la tecnología WiFi, un aumento en el interés de la conectividad de redes e incluso ciudades. </p>
+					<br>
+					<p>Deseamos que nuestros clientes saquen provecho de lo mejor del siglo XXI y puedan mostrarse como agentes de la revolución tecnológica. Integramos todo con un cuidado profesional buscando la compatibilidad entre todos los sistemas, cámaras de video, audio y recursos digitales e informáticos. Usted puede ahora hacer su vida mejor, más fácil y satisfactoria.</p>
+					<br>
+					<p>Cual sea el elemento que necesite, contamos con dispositivos que se adapten a sus necesidades, estamos dispuestos a asesorarlo y ofrecerle lo mejor. Ayudamos a nuestros clientes ya sea que tengan conocimientos y dominio de estos dispositivos como para clientes que recién comienzan en el ámbito corporativo.</p>`,
+					h4s:'SEA PARTE DE LAS SOLUCIONES TECNOLÓGICAS',
+					h5s:'Conviértase en un innovador y aumente su productividad',
+					ps:'Contamos con una infinidad de dispositivos específicamente diseñados para hacer su vida mejor, donde la ciencia ficción encuentra un punto de equilibrio con la realidad, haciendo lo inimaginable.',
+					items:[
+						{ 
+							imagen:'icon1.jpg',
+							titulo:'INTERNET DE LAS COSAS',
+							descripcion:'Objetos convencionales se vuelven inteligentes y se conectan entre sí para facilitar muchas tareas simples y aumentar la productividad.'
+						},
+						{ 
+							imagen:'icon2.jpg',
+							titulo:'MONITOREO Y SEGURIDAD',
+							descripcion:'Tenga el control total. Contamos con cámaras, monitores y videowalls, videograbadoras, sistemas inalámbricos, video analítica, redes, cámaras termales, monitoreo de energía, cableado estructurado, cable UTP, montaje en rack, paneles y cables de conexión, recintos en pared, bastidores de servidores, Kits, enrutadores, puertos, sensores especializados, multidetectores, software de supervisión, lectores biométricos y control de acceso.'
+						},
+						{ 
+							imagen:'icon3.jpg',
+							titulo:'AUTOMATIZACIÓN',
+							descripcion:'Aplicamos elaborados procesos, tanto en hardware como en software para que tareas realizadas repetidas veces puedan ser operadas por una inteligencia artificial, ahorrando incontables horas de trabajo y generando ingresos inmensurables para usted y su empresa.'
+						},
+					]
+				},
+
+				solCorp:{
+					h4p:'SOLUCIONES',
+					h6p:'CORPORATIVAS',
+					textBody:`<p>Nuestro personal especializado se encarga de cubrir eventos corporativos, traducción en tiempo real entre idiomas, control de sistemas electrónicos y contactos para activaciones corporativas.</p> 
+					<br>
+					<p>Cual sea el evento a realizar: Encuentros corporativos, conferencias, celebraciones, ferias, cumbres, seminarios, congresos, exposiciones, simposios, lanzamientos de productos, conferencias de prensa, workshops, apertura de licitaciones, inauguraciones, traducciones en tiempo real y actos especiales en general contamos con el equipo y/o accesorios que se adapten a sus necesidades.</p>
+					<br>
+					<p>Nuestro equipo de especialistas está siempre atento para apoyarlo y asesorarlo, puede contactarnos en cualquier momento, respondemos las 24 horas. Brindamos atención al cliente y servicio personalizado.</p>`,
+					h4s:'SUS EVENTOS NO VOLVERÁN A SER IGUALES',
+					h5s:'Queremos que su empresa y usted crezcan',
+					ps:'Estamos dispuestos a brindar un asesoramiento preciso sobre diversas formas en las cuales puede implementar nuestra tecnología y servicios en la administración de sus eventos.',
+					items:[
+						{ 
+							imagen:'icon4.jpg',
+							titulo:'REUNIONES PRIVADAS',
+							descripcion:'Contamos con el equipo necesario para realizar presentaciones de calidad, demostrando un control total de sus negocios y su empresa.'
+						},
+						{ 
+							imagen:'icon5.jpg',
+							titulo:'EVENTOS MASIVOS',
+							descripcion:'Si requiere ayuda externa para poder organizar, reunir y entretener a grandes grupos de personas, contamos con el personal indispensable para brindar soporte.'
+						},
+						{ 
+							imagen:'icon6.jpg',
+							titulo:'CEREMONIAS',
+							descripcion:'El protocolo a seguir, incluso antes de iniciar el evento se encuentra en nuestras manos, confiamos en la capacidad de nuestros anfitriones para poder ayudarle.'
+						},
+					]
+				},
+				textParallax:'DEMUESTRE EL VALOR DE SU EMPRESA',
+
+				footer:{
+					p4left:'Contáctenos',
+					pleft:'¡Envíenos un mensaje! respondemos de inmediato. Si lo desea puede escribirnos desde su cuenta de correo a info@gonzalesnavarro.com',
+					p4rigth:'Call-center',
+					prigth:'Nuestras líneas se encuentran disponibles todo el tiempo, no dude en contactar para realizar cualquier consulta.',
+					callCenter:{
+						telefonos:[{label:'(+591) 2 2900471'}, {label:'(+591) 2 2900472'}, {label:'(+591) 707 66444'}, {label:'(+591) 758 12048'}],
+						correos:[{label:'info@gonzalesnavarro.com'}, {label:'soporte@gonzalesnavarro.com'}]
+					},
+				}
+			}
 		}
 	},
 	created(){
@@ -250,61 +310,13 @@ export default {
 		this.getData()
 	},
 	methods: {
-		getData(){
-			const self = this
-			self.$q.loading.show()
-			this.$axios.get('http://gonzalesnavarro.com/back/index.php/getData').then(r=>{
-				// console.log(r.data)
-				self.data = r.data
-				self.$q.loading.hide()
-			})
-		},
-		saveData(){
-			const self =  this
-			self.$q.loading.show()
-			let sendFormData =  new FormData()
-			// this.items.forEach((item, index)=>{
-			// 	item.orden = index
-			// 	if(item.imageFile){//enviando imagenes.
-			// 		sendFormData.append(`${item.id}`, item.imageFile)
-			// 	}
-			// })
-			sendFormData.append('data', JSON.stringify(this.data))
-			this.$axios({
-				url: `http://gonzalesnavarro.com/back/index.php/saveData`,
-				method: 'post',
-				data:sendFormData,
-				// data: sendFormData,
-				config: { headers: {'Content-Type': 'multipart/form-data' }}
-			})
-			.then(response =>{
-				if(response.data.ok){
-					self.data = response.data.data
-					self.$q.notify({
-						message: response.data.msg,
-						position: 'top',
-						icon:'thumb_up',
-						color:'green-5'
-					})
-				}else{
-					self.$q.notify({
-						message: response.data.msg,
-						position: 'top',
-						icon:'warning',
-						color:'red-5'
-					})
-				}
-				self.$q.loading.hide()
-			})
-			.catch(error =>{
-				// your action on error success
-				self.$q.notify({
-					message: error,
-					position: 'top',
-					icon:'warning',
-					color:'red-5'
+			getData(){
+				const self = this
+				this.$axios.get('http://gonzalesnavarro.com/back/index.php/test').then(r=>{
+					console.log(r.data)
+					console.log(JSON.stringify(self.data))
 				})
-			})
+
 		},
 		
 		// takes an element object
@@ -334,7 +346,7 @@ export default {
 		 }
 		},
 		onReset () {
-			this.form = {
+			this.form ={
 				nombre:null,
 				email:null,
 				telefono:null,

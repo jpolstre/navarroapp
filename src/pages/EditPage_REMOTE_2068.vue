@@ -77,35 +77,18 @@
 				<editable class="text-body1 text-weight-thin" style="max-width: 800px;" :canEdit="canEdit" v-model="data.solTec.ps"></editable>
 			</div>
 		</div>
-		<div class="row bg-white" 	>
-			 <q-toolbar class="bg-white text-grey-9 q-my-xs shadow-2">
-			<!-- <q-btn flat round dense icon="menu"  /> -->
-				<!-- <q-space /> -->
-				<!-- <q-btn round  icon="keyboard_arrow_up" color="primary"/> -->
-				
-				<!-- <q-toggle v-model="canEdit" icon="edit" label="Editable" left-label/> -->
-				
-				<q-space />
-				<q-btn round icon="add" size="sm" @click="data.solTec.items.push({imagen:'default.png', titulo:'TITULO', descripcion:'Descripcion'})" color="primary" class="q-mx-sm"/>
-				<!-- <q-btn label="Restaurar" flat class="q-ml-sm text-primary" /> -->
-			</q-toolbar>
-			</div>
-			<draggable class="row q-col-gutter-sm bg-white q-mb-xl text-center" v-model="data.solTec.items" align="center">
-				<div class="col-md-4 col-sm-12 col-xs-12" v-for="st, index in data.solTec.items" :key="index">
-					<div class="q-card full-height">
-						<div class="q-pa-xl">
-							<img :src="`statics/${st.imagen}`" :alt="st.imagen" style="border-radius:50%;" class="wow jackInTheBox" data-wow-duration="1s" data-wow-delay=".5s" height="174">
-							<editable class="text-h5 text-weight-medium text-grey-9 q-my-sm" :canEdit="canEdit" v-model="st.titulo"></editable>
-							<editable class="text-body1 text-left text-weight-thin" :canEdit="canEdit" v-model="st.descripcion"></editable>
-							<div class="absolute-right q-ma-md">
-								<q-btn round size="sm" color="red-5" icon="delete_forever" @click="data.solTec.items.splice(index, 1)"/>
-							</div>
-						</div>
+		<div class="row bg-white q-pt-lg q-pb-xl" align="center">
+			<div class="col-md-4 col-sm-12 col-xs-12" v-for="st, index in data.solTec.items" :key="index">
+				<div class="q-card q-mx-sm full-height">
+					<div class="q-pa-xl">
+						<img :src="`statics/${st.imagen}`" :alt="st.imagen" style="border-radius:50%;" class="wow jackInTheBox" data-wow-duration="1s" data-wow-delay=".5s">
+						<editable class="text-h5 text-weight-medium text-grey-9 q-my-sm" :canEdit="canEdit" v-model="st.titulo"></editable>
+						<editable class="text-body1 text-left text-weight-thin" :canEdit="canEdit" v-model="st.descripcion"></editable>
 					</div>
-				</div>	
-			</draggable>
+				</div>
+			</div>
 			
-		
+		</div>
 	</section>
 	<section id="soluciones_corporativas">
 		<div class="row text-white q-pt-xl">
@@ -225,11 +208,9 @@ const { getScrollTarget, setScrollPosition } = scroll
 
 import editable from '../components/editable'
 import WOW from 'wow.js/dist/wow.min.js'
-import draggable from 'vuedraggable'
 export default {
 	components:{
-		editable,
-		draggable
+		editable
 	},
 	name: 'PageIndex',
 	data(){
