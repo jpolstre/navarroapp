@@ -1,6 +1,6 @@
 <template>
 	<q-layout view="lHh Lpr lFf">
-		<q-header reveal elevated class="bg-primary text-white">
+		<q-header elevated class="bg-primary text-white">
 		 <q-toolbar>
 			 <q-btn
 				 flat
@@ -63,7 +63,7 @@
 				 </div>
 			 </q-page-scroller> -->
 		</q-page-container>
-		
+		<q-scroll-observer @scroll="scrollHandler" />
 	</q-layout>
 </template>
 
@@ -88,12 +88,29 @@ export default {
 		}
 	},
 	methods: {
-		goScrollTo(id) {
+		scrollHandler(details){
+			// console.log(details.position)
+
+			if(details.position >= document.getElementById('video').offsetTop-50){
+				this.btnsToggle = 'video'
+			}
+			if(details.position >= document.getElementById('soluciones_tecnologicas').offsetTop-50){
+				this.btnsToggle = 'soluciones_tecnologicas'
+			}
+			if(details.position >= document.getElementById('soluciones_corporativas').offsetTop-50){
+				this.btnsToggle = 'soluciones_corporativas'
+			}
+			if(details.position >= document.getElementById('footer').offsetTop-50){
+				this.btnsToggle = 'footer'
+			}
+			// console.log(getScrollTarget(DomElement))
+		},
+		goScrollTo(id){
 			this.btnsToggle = id
 			this.drawer = false
 			const ele = document.getElementById(id) // You need to get your element here
 			let target = getScrollTarget(ele)
-			let offset = ele.offsetTop // do not subtract the el.scrollHeight here
+			let offset = ele.offsetTop-50 // do not subtract the el.scrollHeight here
 			let duration = 0
 			setScrollPosition(target, offset, duration)
 		}, 

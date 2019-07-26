@@ -49,25 +49,28 @@ module.exports = function (ctx) {
 				'QCarouselSlide',
 				'QSeparator',
 				'QFooter',
-				'QPageScroller',
+				// 'QPageScroller',
 				'QForm',
 				'QInput',
 				'QSpace',
 				'QToggle',
-				'QBtnToggle'
+				'QBtnToggle',
+				'QScrollObserver',
+				'QDialog',
 
 
 			],
 
 			directives: [
-				'Ripple'
+				'Ripple',
+				'ClosePopup'
 			],
 
 			// Quasar plugins
 			plugins: [
 				'Notify',
 				'Loading',
-				'Dialog',
+				// 'Dialog',
 				'LoadingBar'
 			]
 		},

@@ -344,7 +344,7 @@ export default {
 		scrollToElement (id) {
 			const ele = document.getElementById(id) // You need to get your element here
 			let target = getScrollTarget(ele)
-			let offset = ele.offsetTop // do not subtract the el.scrollHeight here
+			let offset = ele.offsetTop-50 // do not subtract the el.scrollHeight here
 			let duration = 0
 			setScrollPosition(target, offset, duration)
 		}, 
