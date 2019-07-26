@@ -22,9 +22,9 @@
 				</div>
 				<div class="absolute-bottom text-white q-my-lg" align="center">
 					<!-- <div class="text-h4 text-weight-bold" contenteditable="true">{{data.video.h4}}</div> -->
-					<editable class="text-h4 text-weight-bold" :canEdit="canEdit" v-model="data.video.h4"></editable>
-					<editable class="text-h5 text-weight-bold text-blue-grey-4" :canEdit="canEdit" v-model="data.video.h5"></editable>
-					<editable class="text-body2 text-blue-grey-4 q-mt-lg" style="max-width: 450px;" :canEdit="canEdit" v-model="data.video.p"></editable>
+					<editable class="text-h4 text-weight-bold" :swValue="swValue" :canEdit="canEdit" v-model="data.video.h4"></editable>
+					<editable class="text-h5 text-weight-bold text-blue-grey-4" :swValue="swValue" :canEdit="canEdit" v-model="data.video.h5"></editable>
+					<editable class="text-body2 text-blue-grey-4 q-mt-lg" style="max-width: 450px;" :swValue="swValue" :canEdit="canEdit" v-model="data.video.p"></editable>
 					<a class="cursor-pointer" @click="scrollToElement('soluciones_tecnologicas')"><img id="mouse" src="statics/mouseanimado4.gif"  style="z-index: 9999;"></a>
 				</div>
 			</div>
@@ -52,9 +52,9 @@
 	<section id="soluciones_tecnologicas">
 		<div class="row text-white q-pt-xl">
 			<div class="col-md-8 col-sm-12 col-xs-12 q-px-xl q-pb-xl" align="center">
-				<editable class="text-h4 q-mt-sm text-weight-medium" :canEdit="canEdit" v-model="data.solTec.h4p"></editable>
-				<editable class="text-h6 q-mb-md text-weight-bold text-blue" :canEdit="canEdit" v-model="data.solTec.h6p"></editable>
-				<editable class="text-body1 text-weight-thin" :canEdit="canEdit" v-model="data.solTec.textBody"></editable>
+				<editable class="text-h4 q-mt-sm text-weight-medium" :swValue="swValue" :canEdit="canEdit" v-model="data.solTec.h4p"></editable>
+				<editable class="text-h6 q-mb-md text-weight-bold text-blue" :swValue="swValue" :canEdit="canEdit" v-model="data.solTec.h6p"></editable>
+				<editable class="text-body1 text-weight-thin" :swValue="swValue" :canEdit="canEdit" v-model="data.solTec.textBody"></editable>
 			</div>
 
 			<div class="col-md-4 col-sm-12 col-xs-12" align="center">
@@ -72,47 +72,47 @@
 		</div>
 		<div class="row bg-white q-pt-xl">
 			<div class="col-md-12 q-pt-sm" align="center">
-				<editable class="text-h4  text-weight-medium text-grey-9" :canEdit="canEdit" v-model="data.solTec.h4s"></editable>
-				<editable class="text-h5  text-weight-bold text-blue q-pt-sm" :canEdit="canEdit" v-model="data.solTec.h5s"></editable>
-				<editable class="text-body1 text-weight-thin" style="max-width: 800px;" :canEdit="canEdit" v-model="data.solTec.ps"></editable>
+				<editable class="text-h4  text-weight-medium text-grey-9" :swValue="swValue" :canEdit="canEdit" v-model="data.solTec.h4s"></editable>
+				<editable class="text-h5  text-weight-bold text-blue q-pt-sm" :swValue="swValue" :canEdit="canEdit" v-model="data.solTec.h5s"></editable>
+				<editable class="text-body1 text-weight-thin" style="max-width: 800px;" :swValue="swValue" :canEdit="canEdit" v-model="data.solTec.ps"></editable>
 			</div>
 		</div>
-		<div class="row bg-white" 	>
-			 <q-toolbar class="bg-white text-grey-9 q-my-xs shadow-2">
-			<!-- <q-btn flat round dense icon="menu"  /> -->
-				<!-- <q-space /> -->
-				<!-- <q-btn round  icon="keyboard_arrow_up" color="primary"/> -->
-				
-				<!-- <q-toggle v-model="canEdit" icon="edit" label="Editable" left-label/> -->
-				
-				<q-space />
-				<q-btn round icon="add" size="sm" @click="data.solTec.items.push({imagen:'default.png', titulo:'TITULO', descripcion:'Descripcion'})" color="primary" class="q-mx-sm"/>
-				<!-- <q-btn label="Restaurar" flat class="q-ml-sm text-primary" /> -->
+		<div class="row bg-white">
+			<q-toolbar class="bg-white text-grey-9 q-my-xs shadow-2">
+		<!-- <q-btn flat round dense icon="menu"  /> -->
+			<!-- <q-space /> -->
+			<!-- <q-btn round  icon="keyboard_arrow_up" color="primary"/> -->
+			
+			<!-- <q-toggle v-model="swValue" icon="edit" label="Editable" left-label/> -->
+			
+			<q-space />
+			<q-btn round icon="add" size="sm" @click="data.solTec.items.push({imagen:'default.png', titulo:'TITULO', descripcion:'Descripcion'})" color="primary" class="q-mx-sm"/>
+			<!-- <q-btn label="Restaurar" flat class="q-ml-sm text-primary" /> -->
 			</q-toolbar>
-			</div>
-			<draggable class="row q-col-gutter-sm bg-white q-mb-xl text-center" v-model="data.solTec.items" align="center">
-				<div class="col-md-4 col-sm-12 col-xs-12" v-for="st, index in data.solTec.items" :key="index">
-					<div class="q-card full-height">
-						<div class="q-pa-xl">
-							<img :src="`statics/${st.imagen}`" :alt="st.imagen" style="border-radius:50%;" class="wow jackInTheBox" data-wow-duration="1s" data-wow-delay=".5s" height="174">
-							<editable class="text-h5 text-weight-medium text-grey-9 q-my-sm" :canEdit="canEdit" v-model="st.titulo"></editable>
-							<editable class="text-body1 text-left text-weight-thin" :canEdit="canEdit" v-model="st.descripcion"></editable>
-							<div class="absolute-right q-ma-md">
-								<q-btn round size="sm" color="red-5" icon="delete_forever" @click="data.solTec.items.splice(index, 1)"/>
-							</div>
+		</div>
+		<draggable class="row q-col-gutter-sm bg-white q-mb-xl text-center" v-model="data.solTec.items" align="center">
+			<div class="col-md-4 col-sm-12 col-xs-12" v-for="st, index in data.solTec.items" :key="index">
+				<div class="q-card full-height">
+					<div class="q-pa-xl">
+						<img :src="`statics/${st.imagen}`" :alt="st.imagen" style="border-radius:50%;" class="wow jackInTheBox" data-wow-duration="1s" data-wow-delay=".5s" height="174">
+						<editable class="text-h5 text-weight-medium text-grey-9 q-my-sm" :swValue="swValue" :canEdit="canEdit" v-model="st.titulo"></editable>
+						<editable class="text-body1 text-left text-weight-thin" :swValue="swValue" :canEdit="canEdit" v-model="st.descripcion"></editable>
+						<div class="absolute-right q-ma-md">
+							<q-btn round size="sm" color="red-5" icon="delete_forever" @click="data.solTec.items.splice(index, 1)"/>
 						</div>
 					</div>
-				</div>	
-			</draggable>
+				</div>
+			</div>	
+		</draggable>
 			
 		
 	</section>
 	<section id="soluciones_corporativas">
 		<div class="row text-white q-pt-xl">
 			<div class="col-md-8 col-sm-12 col-xs-12 q-px-xl q-pb-xl" align="center">
-				<editable class="text-h4 text-weight-medium q-mt-sm" :canEdit="canEdit" v-model="data.solCorp.h4p"></editable>
-				<editable class="text-h6 q-mb-md text-weight-bold text-blue" :canEdit="canEdit" v-model="data.solCorp.h6p"></editable>
-				<editable class="text-body1 text-weight-thin" :canEdit="canEdit" v-model="data.solCorp.textBody"></editable>
+				<editable class="text-h4 text-weight-medium q-mt-sm" :swValue="swValue" :canEdit="canEdit" v-model="data.solCorp.h4p"></editable>
+				<editable class="text-h6 q-mb-md text-weight-bold text-blue" :swValue="swValue" :canEdit="canEdit" v-model="data.solCorp.h6p"></editable>
+				<editable class="text-body1 text-weight-thin" :swValue="swValue" :canEdit="canEdit" v-model="data.solCorp.textBody"></editable>
 				
 			</div>
 			<div class="col-md-4 col-sm-12 col-xs-12" align="center">
@@ -122,36 +122,55 @@
 		</div>
 		<div class="row bg-darkblue text-white q-pt-xl">
 			<div class="col-md-12 q-pt-sm" align="center">
-				<editable class="text-h4 text-weight-medium" :canEdit="canEdit" v-model="data.solCorp.h4s"></editable>
-				<editable class="text-h5 text-weight-bold text-light-green q-pt-sm" :canEdit="canEdit" v-model="data.solCorp.h5s"></editable>
-				<editable class="text-body1 text-weight-thin" style="max-width: 800px;" :canEdit="canEdit" v-model="data.solCorp.ps"></editable>
+				<editable class="text-h4 text-weight-medium" :swValue="swValue" :canEdit="canEdit" v-model="data.solCorp.h4s"></editable>
+				<editable class="text-h5 text-weight-bold text-light-green q-pt-sm" :swValue="swValue" :canEdit="canEdit" v-model="data.solCorp.h5s"></editable>
+				<editable class="text-body1 text-weight-thin" style="max-width: 800px;" :swValue="swValue" :canEdit="canEdit" v-model="data.solCorp.ps"></editable>
 			</div>
 		</div>
-		<div class="row bg-darkblue text-grey-5 q-pt-lg q-pb-xl" align="center">
-			<div class="col-md-4 col-sm-12 col-xs-12" v-for="st, index in data.solCorp.items" :key="index">
-				<div class="q-card bg-darkblue q-mx-sm full-height">
+	
+
+		<div class="row bg-darkblue">
+			<q-toolbar class="bg-darkblue text-grey-5 q-my-xs shadow-2">
+		<!-- <q-btn flat round dense icon="menu"  /> -->
+			<!-- <q-space /> -->
+			<!-- <q-btn round  icon="keyboard_arrow_up" color="primary"/> -->
+			
+			<!-- <q-toggle v-model="swValue" icon="edit" label="Editable" left-label/> -->
+			
+			<q-space />
+			<q-btn round icon="add" size="sm" @click="data.solCorp.items.push({imagen:'default.png', titulo:'TITULO', descripcion:'Descripcion'})" color="primary" class="q-mx-sm"/>
+			<!-- <q-btn label="Restaurar" flat class="q-ml-sm text-primary" /> -->
+			</q-toolbar>
+		</div>
+		<draggable class="row q-col-gutter-sm bg-darkblue q-pb-xl text-center" v-model="data.solCorp.items" align="center">
+			<div class="col-md-4 col-sm-12 col-xs-12" v-for="sc, index in data.solCorp.items" :key="index">
+				<div class="q-card full-height bg-darkblue">
 					<div class="q-pa-xl">
-						<img :src="`statics/${st.imagen}`" :alt="st.imagen" style="border-radius:50%;" class="wow jackInTheBox" data-wow-duration="1s" data-wow-delay=".5s">
-						<editable class="text-h5 text-weight-medium text-grey-8 q-my-sm" :canEdit="canEdit" v-model="st.titulo"></editable>
-						<editable class="text-body1 text-left text-weight-thin" :canEdit="canEdit" v-model="st.descripcion"></editable>
+						<img :src="`statics/${sc.imagen}`" :alt="sc.imagen" style="border-radius:50%;" class="wow jackInTheBox" data-wow-duration="1s" data-wow-delay=".5s" height="174">
+						<editable class="text-h5 text-weight-medium text-grey-8 q-my-sm" :swValue="swValue" :canEdit="canEdit" v-model="sc.titulo"></editable>
+						<editable class="text-body1 text-left text-weight-thin text-grey-5" :swValue="swValue" :canEdit="canEdit" v-model="sc.descripcion"></editable>
+						<div class="absolute-right q-ma-md">
+							<q-btn round size="sm" color="red-5" icon="delete_forever" @click="data.solCorp.items.splice(index, 1)"/>
+						</div>
 					</div>
 				</div>
-			</div>
-			
-		</div>
+			</div>	
+		</draggable>
+
+
 	</section>
 
 	<div id="wall_x" class="imageX" data-stellar-background-ratio="0.4" data-wow-delay=".5s">
-		<editable class="editable wow flipInY text-weight-bold" style="visibility: visible; animation-name: flipInY;" :canEdit="canEdit" v-model="data.textParallax"></editable>
+		<editable class="editable wow flipInY text-weight-bold" style="visibility: visible; animation-name: flipInY;" :swValue="swValue" :canEdit="canEdit" v-model="data.textParallax"></editable>
 				
 	</div>
 	
-	<q-footer class="absolute-bottom bg-darkblue text-grey-6 q-px-lg q-pt-lg" style="z-index: 0;">
+	<q-footer id="footer" class="absolute-bottom bg-darkblue text-grey-6 q-px-lg q-pt-lg" style="z-index: 0;">
 		<div class="row">
 			<div class="col-md-6 col-sm-12 col-xs-12 q-py-lg">
 				<div class="q-mr-md">
-					<editable class="text-h4" :canEdit="canEdit" v-model="data.footer.p4left"></editable>
-					<editable class="text-body1" :canEdit="canEdit" v-model="data.footer.pleft"></editable>
+					<editable class="text-h4" :swValue="swValue" :canEdit="canEdit" v-model="data.footer.p4left"></editable>
+					<editable class="text-body1" :swValue="swValue" :canEdit="canEdit" v-model="data.footer.pleft"></editable>
 					<q-form
 						@submit="onSubmit"
 						@reset="onReset"
@@ -180,15 +199,15 @@
 
 			<div class="col-md-6 col-sm-12 col-xs-12 q-py-lg">
 				<div class="q-pl-md">
-					<editable class="text-h4" :canEdit="canEdit" v-model="data.footer.p4rigth"></editable>
-					<editable class="text-body1" :canEdit="canEdit" v-model="data.footer.prigth"></editable>
+					<editable class="text-h4" :swValue="swValue" :canEdit="canEdit" v-model="data.footer.p4rigth"></editable>
+					<editable class="text-body1" :swValue="swValue" :canEdit="canEdit" v-model="data.footer.prigth"></editable>
 					<q-list dark bordered separator class="q-mt-lg" v-for="(value, name) in data.footer.callCenter" :key="name">
 						<q-item-label header class="text-uppercase">{{name}}</q-item-label>
 						<q-item  v-ripple  v-for="item, index in value" :key="index">
 							<q-item-section avatar>
 								<q-icon color="primary" :name="name!=='emails'?'phone':'email'" />
 							</q-item-section>
-							<editable class="q-item-section" v-model="item.label"></editable>
+							<editable class="q-item-section" :swValue="swValue" :canEdit="canEdit" v-model="item.label"></editable>
 							<!-- <q-item-label caption>{{name!=='emails'?'linea '+(index+1):'email '+(index+1)}}</q-item-label> -->
 						</q-item>
 					</q-list>
@@ -209,8 +228,8 @@
 		<q-toggle v-model="canEdit" icon="edit" label="Editable" left-label/>
 		
 		<q-space />
-		<q-btn label="Guardar" @click="saveData" color="primary" class="q-mx-sm"/>
-		<q-btn label="Restaurar" flat class="q-ml-sm text-primary" />
+		<q-btn label="Guardar" icon="save" @click="saveData" color="primary" class="q-mx-sm"/>
+		<q-btn label="Restaurar" icon="refresh" @click="restoreData" flat class="q-ml-sm text-primary" />
 	</q-toolbar>
 </div>
 </template>
@@ -234,6 +253,7 @@ export default {
 	name: 'PageIndex',
 	data(){
 		return{
+			swValue:false,
 			canEdit:true,
 			slide: 1,
 			form:{
@@ -250,6 +270,19 @@ export default {
 		this.getData()
 	},
 	methods: {
+		restoreData(){
+			const self = this
+			self.$q.loading.show()
+			this.$axios.get('http://gonzalesnavarro.com/back/index.php/getData').then(r=>{
+				// console.log(r.data)
+				self.swValue = true
+				self.data = r.data 
+				setTimeout(()=>{
+					self.swValue = false
+				}, 100)
+				self.$q.loading.hide()
+			})
+		},
 		getData(){
 			const self = this
 			self.$q.loading.show()

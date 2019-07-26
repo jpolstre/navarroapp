@@ -53,7 +53,8 @@ module.exports = function (ctx) {
 				'QForm',
 				'QInput',
 				'QSpace',
-				'QToggle'
+				'QToggle',
+				'QBtnToggle'
 
 
 			],

@@ -1,113 +1,102 @@
 <template>
 	<q-layout view="lHh Lpr lFf">
-	 <!--  <q-header elevated>
+		<q-header reveal elevated class="bg-primary text-white">
 		 <q-toolbar>
 			 <q-btn
 				 flat
 				 dense
 				 round
-				 @click="leftDrawerOpen = !leftDrawerOpen"
+				 @click="drawer = !drawer"
 				 aria-label="Menu"
+				 class="lt-md"
 			 >
 				 <q-icon name="menu" />
 			 </q-btn>
 	 
 			 <q-toolbar-title>
-				 Quasar App
+				 <small> <strong>GONZALES</strong> NAVARRO LTDA.</small>
 			 </q-toolbar-title>
 	 
-			 <div>Quasar v{{ $q.version }}</div>
+			 <q-btn-toggle
+			 		class="gt-sm"
+					v-model="btnsToggle"
+					@input="goScrollTo"
+					flat stretch
+					toggle-color="yellow"
+					:options="menu"
+				/>
 		 </q-toolbar>
-	 </q-header> -->
+	 </q-header>
 
-<!-- 		<q-drawer
-	v-model="leftDrawerOpen"
-	bordered
-	content-class="bg-grey-2"
->
+	<q-drawer
+		q-drawer v-model="drawer"
+		side="left" overlay behavior="mobile" bordered
+		content-class="bg-grey-2 lt-md"
+	>
 	<q-list>
-		<q-item-label header>Essential Links</q-item-label>
-		<q-item clickable tag="a" target="_blank" href="https://quasar.dev">
+		<q-item-label header>Opciones</q-item-label>
+		<q-item 
+			clickable 
+			v-for="item in menu" 
+			:key="item.label" 
+			@click="goScrollTo(item.value)"
+			:active="item.value === btnsToggle" 
+			active-class="bg-primary text-grey-1"
+		>
 			<q-item-section avatar>
-				<q-icon name="school" />
+				<q-icon :name="item.icon" />
 			</q-item-section>
 			<q-item-section>
-				<q-item-label>Docs</q-item-label>
-				<q-item-label caption>quasar.dev</q-item-label>
+				<q-item-label>{{item.label}}</q-item-label>
+				<!-- <q-item-label caption>quasar.dev</q-item-label> -->
 			</q-item-section>
 		</q-item>
-		<q-item clickable tag="a" target="_blank" href="https://github.quasar.dev">
-			<q-item-section avatar>
-				<q-icon name="code" />
-			</q-item-section>
-			<q-item-section>
-				<q-item-label>Github</q-item-label>
-				<q-item-label caption>github.com/quasarframework</q-item-label>
-			</q-item-section>
-		</q-item>
-		<q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
-			<q-item-section avatar>
-				<q-icon name="chat" />
-			</q-item-section>
-			<q-item-section>
-				<q-item-label>Discord Chat Channel</q-item-label>
-				<q-item-label caption>chat.quasar.dev</q-item-label>
-			</q-item-section>
-		</q-item>
-		<q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
-			<q-item-section avatar>
-				<q-icon name="record_voice_over" />
-			</q-item-section>
-			<q-item-section>
-				<q-item-label>Forum</q-item-label>
-				<q-item-label caption>forum.quasar.dev</q-item-label>
-			</q-item-section>
-		</q-item>
-		<q-item clickable tag="a" target="_blank" href="https://twitter.quasar.dev">
-			<q-item-section avatar>
-				<q-icon name="rss_feed" />
-			</q-item-section>
-			<q-item-section>
-				<q-item-label>Twitter</q-item-label>
-				<q-item-label caption>@quasarframework</q-item-label>
-			</q-item-section>
-		</q-item>
-		<q-item clickable tag="a" target="_blank" href="https://facebook.quasar.dev">
-			<q-item-section avatar>
-				<q-icon name="public" />
-			</q-item-section>
-			<q-item-section>
-				<q-item-label>Facebook</q-item-label>
-				<q-item-label caption>@QuasarFramework</q-item-label>
-			</q-item-section>
-		</q-item>
+		
 	</q-list>
-</q-drawer> -->
+</q-drawer>
 
 		<q-page-container>
 			<router-view />
-			<q-page-scroller expand position="top" :scroll-offset="150" :offset="[0, 0]" :duration="0" >
-				 <div class="col cursor-pointer q-pa-sm bg-primary text-white text-center">
+		<!-- 	<q-page-scroller expand position="top" :scroll-offset="150" :offset="[0, 0]" :duration="0" >
+				 <div class="col cursor-pointer q-pa-sm bg-secondary text-white text-center">
 					 Ir arriba...
 				 </div>
-			 </q-page-scroller>
+			 </q-page-scroller> -->
 		</q-page-container>
 		
 	</q-layout>
 </template>
 
 <script>
-// import { openURL } from 'quasar'
+import { scroll } from 'quasar'
+const { getScrollTarget, setScrollPosition } = scroll
+
+const menu = [
+	{label: 'INICIO', value: 'video', icon:'home'},
+	{label: 'TECNOLÓGICAS', value: 'soluciones_tecnologicas', icon:'settings_input_hdmi'},
+	{label: 'EMPRESARIALES', value: 'soluciones_corporativas', icon:'business'},
+	{label: 'CONTACTO', value: 'footer', icon:'email'}
+]
 
 export default {
 	name: 'FrontLayout',
 	data () {
 		return {
-			algo:''
+			menu,
+			drawer:false,
+			btnsToggle:'video'
 		}
 	},
 	methods: {
-		// openURL
+		goScrollTo(id) {
+			this.btnsToggle = id
+			this.drawer = false
+			const ele = document.getElementById(id) // You need to get your element here
+			let target = getScrollTarget(ele)
+			let offset = ele.offsetTop // do not subtract the el.scrollHeight here
+			let duration = 0
+			setScrollPosition(target, offset, duration)
+		}, 
 	}
 }
 </script>

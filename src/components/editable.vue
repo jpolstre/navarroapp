@@ -1,44 +1,36 @@
 <template>
-		<div class="edit-div"
-				 v-html="innerText"
-				 :contenteditable="canEdit"
-				 @focus="isLocked = true"
+	<!--  @focus="isLocked = true"
+				 @blur="isLocked = false" -->
+		<div 
+				@focus="isLocked = true"
 				 @blur="isLocked = false"
-				 @input="changeText">
+
+				 :contenteditable="canEdit"
+				 @input="$emit('input', $event.target.innerHTML)"
+				 >
 		</div>
 </template>
 <script>
 		export default{
 				name: 'editDiv',
-				props: {
-						value: {
-								type: String,
-								default: ''
-						},
-						canEdit: {
-								type: Boolean,
-								default: true
-						}
-				},
+				props: ['value', 'swValue', 'canEdit'],
 				data(){
-						return {
-								innerText: this.value,
-								isLocked: false
-						}
+					return{
+						isLocked:false
+					}
 				},
-				watch: {
-						'value'(){
-								if (!this.isLocked || !this.innerText) {
-										this.innerText = this.value;
-								}
-						}
-				},
-				methods: {
-						changeText(){
-								this.$emit('input', this.$el.innerHTML);
-								// this.$emit('input', this.$el.innerText);
-						}
-				}
+				    mounted: function () {
+				        this.$el.innerHTML = this.value;
+				    },
+				    watch: {
+				        value: function () {
+				          if(this.swValue || !this.isLocked){
+				            this.$el.innerHTML = this.value; 
+				           
+				          }
+				          
+				        }
+				      }
 		}
 </script>
 <!-- <style lang="scss" rel="stylesheet/scss">
