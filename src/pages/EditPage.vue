@@ -2,8 +2,9 @@
 <div v-if="data">
 	<section id="video">
 		<div class="full-window-height video-bg">
+			<!-- data.video.imagen == video(mp4, mov, etc) o imagen(jpg, png, etc) -->
 			<video
-				:src="`${baseImg}/background2.mp4`"
+				:src="data.video.imageFile?data.video.imagen:`${baseImg}/${data.video.imagen}`"
 				preload="auto"
 				autoplay="true"
 				muted="true"
@@ -18,7 +19,10 @@
 					<div class="col-sm-6 col-xs-12">
 						<q-btn @click="scrollToElement('soluciones_corporativas')" size="15px" color="blue-grey-4" outline icon-right="check" label="SOLUCIONES EMPRESARIALES" />
 					</div>
-
+					<div class="col-md-12" v-if="canEdit">
+						<q-btn color="primary" label="cambiar video..." @click="selectImagen(data.video)"/>
+					</div>
+				
 				</div>
 				<div class="absolute-bottom text-white q-my-lg" align="center">
 					<!-- <div class="text-h4 text-weight-bold" contenteditable="true">{{data.video.h4}}</div> -->
@@ -27,6 +31,7 @@
 					<editable class="text-body2 text-blue-grey-4 q-mt-lg" style="max-width: 450px;" :swValue="swValue" :canEdit="canEdit" v-model="data.video.p"></editable>
 					<a class="cursor-pointer" @click="scrollToElement('soluciones_tecnologicas')"><img id="mouse" :src="`${baseImg}/mouseanimado4.gif`"  style="z-index: 9999;"></a>
 				</div>
+
 			</div>
 			<vue-particles class="absolute-top"  
 				color="#dedede"
@@ -271,7 +276,7 @@
 		<q-toggle v-model="canEdit" icon="edit" label="Editable" left-label/>
 		
 		<q-space />
-		<q-btn label="Guardar" icon="save" @click="saveData" color="primary" class="q-mx-sm animate-pop"/>
+		<q-btn label="Guardar" :loading="loading" icon="save" @click="saveData" color="primary" class="q-mx-sm animate-pop"/>
 		<q-btn label="Restaurar" icon="refresh" @click="restoreData" flat class="q-ml-sm text-primary animate-pop" />
 	</q-toolbar>
 
@@ -379,7 +384,8 @@
 					</q-card-section>
 				</q-card>
 			</q-dialog>
-			<input type="file" style="display:none;" @change="changeValueInput" name="myImage" accept=".png, .jpg, .jpeg" ref="inputFile"/>
+			<input type="file" style="display:none;" @change="changeValueInput" name="myImage" accept=".png, .jpg, .jpeg, .mp4" ref="inputFile"/>
+			
 </div>
 </template>
 <script>
@@ -437,7 +443,7 @@ export default {
 			data:null
 		}
 	},
-	created(){
+	mounted(){
 		new WOW().init()
 		this.getData()
 		if(!this.$route.params.pagina){
@@ -461,6 +467,7 @@ export default {
 			this.$router.push({name:'Index'})
 		},
 
+		
 		changeValueInput(){
 			let file = this.$refs.inputFile.files[0]
 			this.itemImg.imagen =  window.URL.createObjectURL(file)
@@ -525,20 +532,26 @@ export default {
 
 		restoreData(){
 			const self = this
-			self.$q.loading.show()
+			//self.$q.loading.show()
 			this.$axios.get(`${self.baseUrl}/getData`).then(r=>{
 				// console.log(r.data)
 				self.swValue = true
 				self.data = r.data 
 				//restaura imagenes cambiadas sin guardar.
 				// document.getElementById('wall_x').style.backgroundImage=`url(${self.baseImg}/${self.data.textParallax.imagen})`
+				self.$q.notify({
+					message: 'Ok, datos restaurados',
+					position: 'top-left',
+					icon:'thumb_up',
+					color:'green-5'
+				})
 				setTimeout(()=>{
 					self.swValue = false
 				}, 100)
-				self.$q.loading.hide()
+				//self.$q.loading.hide()
 			}).catch(error =>{
 				// your action on error success
-				self.$q.loading.hide()
+				//self.$q.loading.hide()
 				self.$q.notify({
 					message:'error en el servidor',
 					position:'top',
@@ -550,14 +563,15 @@ export default {
 
 		getData(){
 			const self = this
-			self.$q.loading.show()
+			//self.$q.loading.show()
 			this.$axios.get(`${self.baseUrl}/getData`).then(r=>{
 				// console.log(r.data)
 				self.data = r.data
-				self.$q.loading.hide()
+				//self.$q.loading.hide()
+				
 			}).catch(error =>{
 				// your action on error success
-				self.$q.loading.hide()
+				//self.$q.loading.hide()
 				self.$q.notify({
 					message:'error en el servidor',
 					position:'top',
@@ -569,15 +583,21 @@ export default {
 
 		saveData(){
 			const self =  this
-			self.$q.loading.show()
+			//self.$q.loading.show()
+			self.loading = true
 			let sendFormData =  new FormData()
 
-		this.data.solTec.slideItems.forEach((item, index)=>{
-			if(item.imageFile){//enviando imagenes.
-				sendFormData.append(`slideItems-${index}`, item.imageFile)
-				delete item.imageFile
+			if(this.data.video.imageFile){
+				sendFormData.append(`video`, this.data.video.imageFile)
+				delete this.data.video.imageFile
 			}
-		})
+
+			this.data.solTec.slideItems.forEach((item, index)=>{
+				if(item.imageFile){//enviando imagenes.
+					sendFormData.append(`slideItems-${index}`, item.imageFile)
+					delete item.imageFile
+				}
+			})
 
 			if(this.data.solCorp.imageFile){
 				sendFormData.append(`solCorp`, this.data.solCorp.imageFile)
@@ -617,7 +637,7 @@ export default {
 					self.data = response.data.data
 					self.$q.notify({
 						message: response.data.msg,
-						position: 'top',
+						position: 'bottom_left',
 						icon:'thumb_up',
 						color:'green-5'
 					})
@@ -629,11 +649,13 @@ export default {
 						color:'red-5'
 					})
 				}
-				self.$q.loading.hide()
+				//self.$q.loading.hide()
+				self.loading = false
 			})
 			.catch(error =>{
 				// your action on error success
-				self.$q.loading.hide()
+				//self.$q.loading.hide()
+				self.loading = false
 				self.$q.notify({
 					message:'error en el servidor',
 					position: 'top',
@@ -659,7 +681,7 @@ export default {
 			if(this.form.recaptcha){
 				const self = this
 				let sendFormData = new FormData()
-				self.$q.loading.show()
+				//self.$q.loading.show()
 				Object.keys(self.form).forEach((key)=>{
 					sendFormData.append(key, self.form[key])
 				})
@@ -687,10 +709,10 @@ export default {
 							color:'red-5'
 						})
 					}
-					self.$q.loading.hide()
+					//self.$q.loading.hide()
 				})
 				.catch(error =>{
-					self.$q.loading.hide()
+					//self.$q.loading.hide()
 				// your action on error success
 					self.$q.notify({
 						message:'error en el servidor',

@@ -14,7 +14,7 @@
 			 </q-btn>
 	 
 			 <q-toolbar-title>
-				 <small> <strong>GONZALES</strong> NAVARRO L<span class="text-lowercase">TDA.</span></small>
+				 <small class="cursor-pointer" @click="$router.go(0)"> <strong>GONZALES</strong> NAVARRO L<span class="text-lowercase">TDA.</span></small>
 			 </q-toolbar-title>
 	 
 			 <q-btn-toggle
