@@ -4,6 +4,7 @@
 @import 'animate.css';
 
 @import 'quasar.variables'
+@import 'core/motion'
 
 * 
 	margin 0
@@ -70,8 +71,8 @@ body, html {
 
 @media only screen and (max-width: 768px){
 	.q-carousel{
-		width: 28vh;
-		height: 26vh;
+		width: 56vh;
+    height: 54vh;
 	}
 	#wall_x .editable{
 		font-size 20px!important;
@@ -94,10 +95,10 @@ body, html {
 	height: 250px;
 	border-radius: 50%;
 	background: rgba(255, 255, 255, 0.2);
-	background-image:url(/statics/iconcerebro.png);
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 60%;
+	// background-image:url(http://gonzalesnavarro.com/statics/iconcerebro.png);
+	// background-repeat: no-repeat;
+	// background-position: center;
+	// background-size: 60%;
 	text-align: center;
 }
 
@@ -215,13 +216,13 @@ body, html {
 	box-sizing: border-box;
 }
 
-#wall_x {
+/*#wall_x {
 	background: url(/statics/img1.jpg) no-repeat;
 	background-position: bottom;
 	background-size: cover;
 	background-attachment: fixed;
 	display: flex;
-}
+}*/
 
 
 #wall_x .editable{
@@ -233,7 +234,7 @@ body, html {
 	background-color: rgba(0,0,0,0.5);
 	padding: 28px;
 	height: auto;
-	min-height: 80px;
+	min-height: 100px;
 	display: block;
 	line-height: 17px;
 	// box-sizing: content-box!important;
@@ -241,3 +242,18 @@ body, html {
 
 .q-toolbar__title 
 	font-family Roboto,-apple-system,Helvetica Neue,Helvetica,Arial,sans-serif !important
+
+.q-zindex-xs
+	z-index 10
+	
+.q-zindex-sm
+	z-index 100
+
+.q-zindex-md
+	z-index 1000
+	
+.q-zindex-lg
+	z-index 10000
+	
+.q-zindex-xl
+	z-index 100000

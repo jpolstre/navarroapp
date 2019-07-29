@@ -1,19 +1,19 @@
 
 const routes = [
   {
-    path: '/',
+    path: '/:pagina?',
     component: () => import('layouts/FrontLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', name:'Index', component: () => import('pages/EditPage.vue') }
     ]
   },
-  {
-    path: '/admin',
-    component: () => import('layouts/FrontLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/EditPage.vue') }
-    ]
-  }
+  // {
+  //   path: '/admin',
+  //   component: () => import('layouts/FrontLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/EditPage.vue') }
+  //   ]
+  // }
 ]
 
 // Always leave this as last one

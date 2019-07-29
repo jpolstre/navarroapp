@@ -26,6 +26,7 @@ module.exports = function (ctx) {
 		],
 
 		framework: {
+			lang: 'es',
 			// iconSet: 'ionicons-v4',
 			// lang: 'de', // Quasar language
 
@@ -47,6 +48,7 @@ module.exports = function (ctx) {
 				'QItemLabel',
 				'QCarousel',
 				'QCarouselSlide',
+				'QCarouselControl',
 				'QSeparator',
 				'QFooter',
 				// 'QPageScroller',
@@ -57,8 +59,10 @@ module.exports = function (ctx) {
 				'QBtnToggle',
 				'QScrollObserver',
 				'QDialog',
-
-
+				'QCard',
+				'QCardSection',
+				'QBar',
+				'QSlider'
 			],
 
 			directives: [

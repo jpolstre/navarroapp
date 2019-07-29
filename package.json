@@ -2,7 +2,7 @@
   "name": "navarroapp",
   "version": "0.0.1",
   "description": "Gonzales Navarro",
-  "productName": "Quasar App",
+  "productName": "Gonzales Navarro",
   "cordovaId": "org.cordova.quasar.app",
   "author": "jpolstre <jpolstre@gmail.com>",
   "private": true,
@@ -14,6 +14,7 @@
     "axios": "^0.18.1",
     "quasar": "^1.0.0",
     "vue-particles": "^1.0.9",
+    "vue-recaptcha": "^1.2.0",
     "vuedraggable": "^2.23.0",
     "wow.js": "^1.2.2"
   },

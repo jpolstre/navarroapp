@@ -1,6 +1,6 @@
 <template>
 	<q-layout view="lHh Lpr lFf">
-		<q-header elevated class="bg-primary text-white">
+		<q-header  elevated class="bg-primary text-white">
 		 <q-toolbar>
 			 <q-btn
 				 flat
@@ -14,7 +14,7 @@
 			 </q-btn>
 	 
 			 <q-toolbar-title>
-				 <small> <strong>GONZALES</strong> NAVARRO LTDA.</small>
+				 <small> <strong>GONZALES</strong> NAVARRO L<span class="text-lowercase">TDA.</span></small>
 			 </q-toolbar-title>
 	 
 			 <q-btn-toggle
@@ -90,17 +90,23 @@ export default {
 	methods: {
 		scrollHandler(details){
 			// console.log(details.position)
-
-			if(details.position >= document.getElementById('video').offsetTop-50){
+			let video = document.getElementById('video')
+			if( video && details.position >= video.offsetTop-51){
 				this.btnsToggle = 'video'
 			}
-			if(details.position >= document.getElementById('soluciones_tecnologicas').offsetTop-50){
+
+			let st = document.getElementById('soluciones_tecnologicas')
+			if(st && details.position >= st.offsetTop-51){
 				this.btnsToggle = 'soluciones_tecnologicas'
 			}
-			if(details.position >= document.getElementById('soluciones_corporativas').offsetTop-50){
+
+			let sc = document.getElementById('soluciones_corporativas')
+			if(sc && details.position >= sc.offsetTop-51){
 				this.btnsToggle = 'soluciones_corporativas'
 			}
-			if(details.position >= document.getElementById('footer').offsetTop-50){
+
+			let footer = document.getElementById('footer')
+			if(footer && details.position >= footer.offsetTop-51){
 				this.btnsToggle = 'footer'
 			}
 			// console.log(getScrollTarget(DomElement))
