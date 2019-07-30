@@ -74,7 +74,7 @@ module.exports = function (ctx) {
 			plugins: [
 				'Notify',
 				'Loading',
-				// 'Dialog',
+				'Dialog',
 				'LoadingBar'
 			]
 		},

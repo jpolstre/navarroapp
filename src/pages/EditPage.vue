@@ -14,10 +14,10 @@
 			<div class="q-mt-xl">
 				<div class="row wow fadeInDown" data-wow-duration="1.5s" data-wow-delay=".5s">
 					<div class="col-sm-6 col-xs-12">
-						<q-btn @click="scrollToElement('soluciones_tecnologicas')" size="15px" color="blue-grey-4" outline icon="check" label="SOLUCIONES TECNOLÓGICAS" />
+						<q-btn @click="scrollToElement('soluciones_tecnologicas')" size="15px" color="blue-grey-4"  icon="check" label="SOLUCIONES TECNOLÓGICAS" />
 					</div>
 					<div class="col-sm-6 col-xs-12">
-						<q-btn @click="scrollToElement('soluciones_corporativas')" size="15px" color="blue-grey-4" outline icon-right="check" label="SOLUCIONES EMPRESARIALES" />
+						<q-btn @click="scrollToElement('soluciones_corporativas')" size="15px" color="blue-grey-4"  icon-right="check" label="SOLUCIONES EMPRESARIALES" />
 					</div>
 					<div class="col-md-12" v-if="canEdit">
 						<q-btn color="primary" label="cambiar video..." @click="selectImagen(data.video)"/>
@@ -470,15 +470,38 @@ export default {
 		
 		changeValueInput(){
 			let file = this.$refs.inputFile.files[0]
-			this.itemImg.imagen =  window.URL.createObjectURL(file)
-			this.itemImg.imageFile =  file
+			// console.log(2415 = 2472577)
+			// para modificar el tamanio crera un archiivo .user.ini en el serv en el dir donde estan los scrips php en este caso en el dir back
+			if(file.size<=4e+7){//40 mb
 
-			// console.log(document.getElementById(this.itemImg.id).style)
-			// if(this.itemImg.id == 'wall_x'){
-			// 	document.getElementById(this.itemImg.id).style.backgroundImage=`url(${this.itemImg.imagen})`
-			// }
-			this.$refs.inputFile.value = ''
-			this.itemImg = null
+				if(this.itemImg.imagen.indexOf('blob:http')==-1){
+					this.itemImg.imagenAnt = this.itemImg.imagen
+				}
+				this.itemImg.imagen =  window.URL.createObjectURL(file)
+				this.itemImg.imageFile =  file
+
+				// console.log(document.getElementById(this.itemImg.id).style)
+				// if(this.itemImg.id == 'wall_x'){
+				// 	document.getElementById(this.itemImg.id).style.backgroundImage=`url(${this.itemImg.imagen})`
+				// }
+
+				console.log(this.itemImg)
+				this.$refs.inputFile.value = ''
+				this.itemImg = null
+			}else{
+
+				this.$q.dialog({
+					title: 'limit size<em>!</em>',
+					message: '<p class="text-red">Solo Se permiten archivos <em><</em> 40MB</p> <p><em>Consulte con el administrador del servidor para ampliar el tamanio de subida de archivos.</em></p>',
+					html: true
+				}).onOk(() => {
+					// console.log('OK')
+				})
+				
+				this.$refs.inputFile.value = ''
+				this.itemImg = null
+			}
+
 		},
 
 		selectImagen(item){
@@ -532,7 +555,7 @@ export default {
 
 		restoreData(){
 			const self = this
-			//self.$q.loading.show()
+			self.$q.loading.show()
 			this.$axios.get(`${self.baseUrl}/getData`).then(r=>{
 				// console.log(r.data)
 				self.swValue = true
@@ -548,10 +571,10 @@ export default {
 				setTimeout(()=>{
 					self.swValue = false
 				}, 100)
-				//self.$q.loading.hide()
+				self.$q.loading.hide()
 			}).catch(error =>{
 				// your action on error success
-				//self.$q.loading.hide()
+				self.$q.loading.hide()
 				self.$q.notify({
 					message:'error en el servidor',
 					position:'top',
@@ -583,7 +606,7 @@ export default {
 
 		saveData(){
 			const self =  this
-			//self.$q.loading.show()
+			self.$q.loading.show()
 			self.loading = true
 			let sendFormData =  new FormData()
 
@@ -629,7 +652,19 @@ export default {
 				method: 'post',
 				data:sendFormData,
 				// data: sendFormData,
-				config: { headers: {'Content-Type': 'multipart/form-data' }}
+				config: { 
+					headers: {'Content-Type': 'multipart/form-data' },
+					// onUploadProgress: (progressEvent) => {
+					// 	let progressData = null
+					// 	const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
+					// 	console.log("onUploadProgress", totalLength);
+					// 	if (totalLength !== null) {
+					// 		progressData = Math.round( (progressEvent.loaded * 100) / totalLength );
+					// 		console.log(progressData)
+					// 	}
+					// },
+
+				}
 			})
 			.then(response =>{
 				if(response.data.ok){
@@ -637,7 +672,7 @@ export default {
 					self.data = response.data.data
 					self.$q.notify({
 						message: response.data.msg,
-						position: 'bottom_left',
+						position: 'top-left',
 						icon:'thumb_up',
 						color:'green-5'
 					})
@@ -649,12 +684,12 @@ export default {
 						color:'red-5'
 					})
 				}
-				//self.$q.loading.hide()
+				self.$q.loading.hide()
 				self.loading = false
 			})
 			.catch(error =>{
 				// your action on error success
-				//self.$q.loading.hide()
+				self.$q.loading.hide()
 				self.loading = false
 				self.$q.notify({
 					message:'error en el servidor',
@@ -696,7 +731,7 @@ export default {
 					if(response.data.ok){
 						self.$q.notify({
 							message:response.data.msg,
-							position:'bottom-left',
+							position:'top-left',
 							icon:'thumb_up',
 							color:'green-5'
 						})
@@ -704,7 +739,7 @@ export default {
 					}else{
 						self.$q.notify({
 							message:response.data.msg,
-							position:'bottom-left',
+							position:'top-left',
 							icon:'warning',
 							color:'red-5'
 						})
@@ -725,7 +760,7 @@ export default {
 
 				this.$q.notify({
 					message:'Resolver el captcha',
-					position: 'bottom-left',
+					position: 'top-left',
 					icon:'warning',
 					color:'red-5'
 				})
